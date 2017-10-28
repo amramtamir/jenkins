@@ -1,10 +1,10 @@
-stages {
-    stage("Prepare"){
-        node {
-            sh 'echo hello world'
-        }
+
+stage("Prepare"){
+    node {
+        sh 'echo hello world'
     }
 }
+
 
 def userInput = true
 def didTimeout = false
@@ -24,7 +24,7 @@ try {
         echo "Aborted by: [${user}]"
     }
 }
-
+stage("deploy"){
 node {
     if (didTimeout) {
         // do something on timeout
@@ -37,4 +37,5 @@ node {
         echo "this was not successful"
         currentBuild.result = 'FAILURE'
     }
+}
 }
