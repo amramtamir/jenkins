@@ -5,7 +5,7 @@ stage("Prepare"){
     }
 }
 
-stage("approve"){
+stage("deploy"){
 def userInput = true
 def didTimeout = false
 try {
@@ -24,8 +24,6 @@ try {
         echo "Aborted by: [${user}]"
     }
 }
-}
-stage("deploy"){
 node ("linux"){
     if (didTimeout) {
         // do something on timeout
