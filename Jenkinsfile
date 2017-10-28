@@ -1,6 +1,6 @@
 
 stage("Prepare"){
-    node {
+    node("linux") {
         sh 'echo hello world'
     }
 }
@@ -25,7 +25,7 @@ try {
     }
 }
 stage("deploy"){
-node {
+node ("linux"){
     if (didTimeout) {
         // do something on timeout
         echo "no input was received before timeout"
