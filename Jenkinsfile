@@ -24,7 +24,7 @@ try {
         [$class: 'TextParameterDefinition', description: 'Version Number', name: 'version']
         ])
     }
-    sh echo "${version}" > .version
+    sh 'echo "${version}" > .version'
 } catch(err) { // timeout reached or input false
     def user = err.getCauses()[0].getUser()
     if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
