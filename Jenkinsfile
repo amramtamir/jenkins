@@ -1,5 +1,7 @@
-
-stage: "Prepare"
-node {
-    sh 'echo hello world'
+stages {
+    stage("Prepare"){
+        node {
+            sh 'echo hello world'
+        }
+    }
 }
