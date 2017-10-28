@@ -9,7 +9,7 @@ stage("DEV"){
         sh 'echo deploying to dev'
     }
 }
-def userInput = true
+def userInput = null
 def didTimeout = false
 def version
 stage("QA"){
@@ -20,17 +20,16 @@ try {
     timeout(time: 120, unit: 'SECONDS') { // change to a convenient timeout for you
         userInput = input(
         id: 'Proceed1', message: 'Was this successful?', parameters: [
-        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this'],
+        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'confirm'],
         [$class: 'TextParameterDefinition', description: 'Version Number', name: 'version']
         ])
     }
-    sh 'echo "${version}" > .version'
 } catch(err) { // timeout reached or input false
     def user = err.getCauses()[0].getUser()
     if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
         didTimeout = true
     } else {
-        userInput = false
+        userInput = null
         echo "Aborted by: [${user}]"
     }
 }
@@ -42,10 +41,10 @@ node ("linux"){
     if (didTimeout) {
         // do something on timeout
         echo "no input was received before timeout"
-    } else if (userInput == true) {
+    } else if (userInput["confirm"] == true) {
         // do something
-        version = readFile '.version'
-        echo "this was successful, deploying : ${version}"
+
+        echo "this was successful, deploying : "+userInput["version"]
     } else if (userInput == false) {
         // do something else
         echo "this was not successful"
