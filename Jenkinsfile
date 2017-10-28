@@ -19,7 +19,7 @@ stage("QA"){
 try {
     timeout(time: 120, unit: 'SECONDS') { // change to a convenient timeout for you
         userInput = input(
-        id: 'Proceed1', message: 'Please Approve and write the version number', parameters: [
+        id: 'Proceed1', message: 'Approve deployment? (add version number)', parameters: [
         [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'confirm'],
         [$class: 'TextParameterDefinition', description: 'Version Number', name: 'version']
         ])
