@@ -42,10 +42,10 @@ node ("linux"){
     } else if (userInput == true) {
         // do something
         echo "this was successful"
-    } else {
+    } else if (userInput == false) {
         // do something else
         echo "this was not successful"
-        currentBuild.result = 'FAILURE'
+        // currentBuild.result = 'FAILURE'
     }
 }
 }
