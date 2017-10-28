@@ -11,7 +11,7 @@ stage("DEV"){
 }
 def userInput = true
 def didTimeout = false
-def version = ""
+def version
 stage("QA"){
     node("linux") {
         sh 'echo deploying to dev'
@@ -24,6 +24,7 @@ try {
         [$class: 'TextParameterDefinition', description: 'Version Number', name: 'version']
         ])
     }
+    sh echo "${version}" > .version
 } catch(err) { // timeout reached or input false
     def user = err.getCauses()[0].getUser()
     if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
@@ -43,6 +44,7 @@ node ("linux"){
         echo "no input was received before timeout"
     } else if (userInput == true) {
         // do something
+        version = readFile '.version'
         echo "this was successful, deploying : ${version}"
     } else if (userInput == false) {
         // do something else
