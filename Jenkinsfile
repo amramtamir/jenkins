@@ -5,7 +5,7 @@ stage("Prepare"){
     }
 }
 
-
+stage("approve"){
 def userInput = true
 def didTimeout = false
 try {
@@ -23,6 +23,7 @@ try {
         userInput = false
         echo "Aborted by: [${user}]"
     }
+}
 }
 stage("deploy"){
 node ("linux"){
