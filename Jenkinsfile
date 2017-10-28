@@ -1,13 +1,20 @@
 
-stage("Prepare"){
+stage("Build"){
     node("linux") {
         sh 'echo hello world'
     }
 }
-
-stage("deploy"){
+stage("DEV"){
+    node("linux") {
+        sh 'echo deploying to dev'
+    }
+}
 def userInput = true
 def didTimeout = false
+stage("QA"){
+    node("linux") {
+        sh 'echo deploying to dev'
+    }
 try {
     timeout(time: 120, unit: 'SECONDS') { // change to a convenient timeout for you
         userInput = input(
@@ -24,6 +31,10 @@ try {
         echo "Aborted by: [${user}]"
     }
 }
+}
+
+stage("deploy"){
+
 node ("linux"){
     if (didTimeout) {
         // do something on timeout
