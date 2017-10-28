@@ -11,7 +11,7 @@ stage("DEV"){
 }
 def userInput = true
 def didTimeout = false
-dev version = ""
+def version = ""
 stage("QA"){
     node("linux") {
         sh 'echo deploying to dev'
