@@ -11,6 +11,7 @@ stage("DEV"){
 }
 def userInput = true
 def didTimeout = false
+dev version = ""
 stage("QA"){
     node("linux") {
         sh 'echo deploying to dev'
@@ -19,7 +20,8 @@ try {
     timeout(time: 120, unit: 'SECONDS') { // change to a convenient timeout for you
         userInput = input(
         id: 'Proceed1', message: 'Was this successful?', parameters: [
-        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this'],
+        [$class: 'TextParameterDefinition', description: 'Version Number', name: 'version']
         ])
     }
 } catch(err) { // timeout reached or input false
@@ -41,7 +43,7 @@ node ("linux"){
         echo "no input was received before timeout"
     } else if (userInput == true) {
         // do something
-        echo "this was successful"
+        echo "this was successful, deploying : ${version}"
     } else if (userInput == false) {
         // do something else
         echo "this was not successful"
